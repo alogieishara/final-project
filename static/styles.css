@@ -1,3 +1,4 @@
+/* Navigation Bar */
 .bottom-nav {
     position: fixed;
     bottom: 0;
@@ -20,3 +21,4 @@
 .bottom-nav a:hover {
     color: #333;
 }
+
