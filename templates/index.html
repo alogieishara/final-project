@@ -1,12 +1,55 @@
 <!DOCTYPE html>
 
-<html data-theme="cupcake" lang="en">
+<html data-theme="dark" lang="en">
     <head>
         <link rel="stylesheet" href="../static/dist/css/output.css">
         <title>Birthdays</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
+        <!-- Navbar -->
+        <nav class="navbar justify-between bg-base-300">
+            <!-- Logo -->
+            <a class="btn btn-ghost text-lg">
+                <img alt="Logo" src="../static/svg/logo.svg" class="w-10" />
+                Finance
+            </a>
+
+            <!-- Menu for mobile -->
+            <div class="dropdown dropdown-end sm:hidden">
+                <button class="btn btn-square btn-ghost">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      class="inline-block h-5 w-5 stroke-current">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+
+                <ul tabindex="0" class="dropdown-content menu z-[1] bg-base-200 p-6 rounded-box shadow w-56 gap-2">
+                    <li><a>About</a></li>
+                    <li><a>Pricing</a></li>
+                    <li><a>Blog</a></li>
+                    <li><a>Contact</a></li>
+                    <a class="btn btn-sm btn-primary">Log in</a>
+                </ul>
+            </div>
+
+            <!-- Menu for desktop -->
+            <ul class="hidden menu sm:menu-horizontal gap-2">
+                <li><a>About</a></li>
+                <li><a>Pricing</a></li>
+                <li><a>Blog</a></li>
+                <li><a>Contact</a></li>
+                <a class="btn btn-sm btn-primary">Log in</a>
+            </ul>
+        </nav>
+
         <div class="p-8">
             <article class="prose">
                 <h1>Garlic bread with cheese: What the science tells us</h1>
