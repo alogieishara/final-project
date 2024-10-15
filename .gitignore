@@ -9,3 +9,7 @@ venv.bak/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
+
+# Node Dependency directories
+node_modules/
+jspm_packages/
