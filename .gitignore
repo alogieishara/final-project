@@ -13,3 +13,6 @@ __pycache__/
 # Node Dependency directories
 node_modules/
 jspm_packages/
+
+# Flask Session
+flask_session/

@@ -7,6 +7,9 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from helpers import apology, login_required, usd
 
+# COMMANDS:
+# python3 app.py
+# npx tailwindcss -i ./static/src/input.css -o ./static/dist/css/output.css --watch
 
 # Configure application
 app = Flask(__name__)
@@ -32,40 +35,10 @@ def after_request(response):
     return response
 
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/")
+@app.route("/index")
 def index():
-    if request.method == "POST":
+    return render_template("index.html")
 
-        # TODO: Add the user's entry into the database
-        name = request.form.get("name")
-        if not name or not name.isalpha():
-            return redirect("/")
-
-        month = request.form.get("month")
-        if not month or int(month) not in range(1, 12):
-            return redirect("/")
-
-        day = request.form.get("day")
-        if not day or int(day) not in range(1, 31):
-            return redirect("/")
-
-        db.execute("INSERT INTO birthdays (name, month, day) VALUES(?, ?, ?)", name, month, day)
-
-        return redirect("/")
-
-    else:
-
-        # TODO: Display the entries in the database on index.html
-        rows = db.execute("SELECT * FROM birthdays")
-
-        return render_template("index.html", birthdays=rows)
-
-
-@app.route("/delete", methods=["POST"])
-def delete():
-
-    # Delete birthday
-    id = request.form.get("id")
-    if id:
-        db.execute("DELETE FROM birthdays WHERE id = ?", id)
-    return redirect("/")
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0')
