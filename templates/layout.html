@@ -6,7 +6,7 @@
         <title>LogCash: {% block title %}{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
-    <body>
+    <body class="min-h-svh flex flex-col justify-between">
         <!-- Navbar -->
         <nav class="navbar justify-between bg-base-300">
             <!-- Logo -->
@@ -58,7 +58,7 @@
             </header>
         {% endif %}
 
-        <main>
+        <main class="grow">
             {% block main %}{% endblock %}
             {% block content %}{% endblock %}
         </main>
@@ -68,6 +68,5 @@
               <p>Made for CS50x © 2024 - All rights reserved</p>
             </aside>
         </footer>
-        
     </body>
 </html>
