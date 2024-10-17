@@ -23,7 +23,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Configure CS50 Library to use SQLite database
-db = SQL("sqlite:///birthdays.db")
+db = SQL("sqlite:///logcash.db")
 
 
 @app.after_request
@@ -79,6 +79,10 @@ def login():
     else:
         return render_template("login.html")
 
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    """Register new user"""
+    return render_template("register.html")
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
