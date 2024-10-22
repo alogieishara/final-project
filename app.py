@@ -8,7 +8,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import apology, login_required, usd
 
 # COMMANDS:
-# python3 app.py
+# python -m flask run --debug --host=0.0.0.0
 # npx tailwindcss -i ./static/src/input.css -o ./static/dist/css/output.css --watch
 
 # Configure application
@@ -82,7 +82,41 @@ def login():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Register new user"""
-    return render_template("register.html")
+    if request.method == "POST":
+        # Ensure username was submitted
+        if not request.form.get("username"):
+            return apology("must provide username", 400)
+
+        # Ensure password was submitted
+        elif not request.form.get("password"):
+            return apology("must provide password", 400)
+        
+        # Check if password fields match
+        elif request.form.get("password") != request.form.get("confirmation"):
+            return apology("password and confirmation must be the same", 400)
+
+        # Hash the password
+        password = request.form.get("password")
+        phash = generate_password_hash(password, method='pbkdf2', salt_length=16)
+
+        try:
+            db.execute(
+                "INSERT INTO users (username, hash, email) VALUES(?, ?, ?)", request.form.get(
+                    "username"), phash, request.form.get(
+                    "email")
+            )
+        except ValueError:
+            return apology("username already exists", 400)
+        
+        rows = db.execute(
+            "SELECT * FROM users WHERE username = ?", request.form.get("username")
+        )
+        session["user_id"] = rows[0]["id"]
+
+        return redirect("/")
+    
+    else:
+        return render_template("register.html")
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(host='0.0.0.0')
