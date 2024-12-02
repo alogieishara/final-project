@@ -84,7 +84,7 @@ def login():
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
-        return render_template("login.html")
+        return render_template("login.html", error=error)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -143,7 +143,7 @@ def register():
         return redirect("/")
     
     else:
-        return render_template("register.html")
+        return render_template("register.html", error=error)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
