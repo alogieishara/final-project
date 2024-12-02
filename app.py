@@ -1,4 +1,4 @@
-import os
+import os, re
 
 from cs50 import SQL
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
@@ -8,8 +8,9 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import apology, login_required, usd
 
 # COMMANDS:
-# python -m flask run --debug --host=0.0.0.0
 # npx tailwindcss -i ./static/src/input.css -o ./static/dist/css/output.css --watch
+# python -m flask run --debug --host=0.0.0.0
+# 
 
 # Configure application
 app = Flask(__name__)
@@ -49,14 +50,19 @@ def login():
     session.clear()
 
     # User reached route via POST (as by submitting a form via POST)
+    error = "none"
+
     if request.method == "POST":
+
         # Ensure username was submitted
         if not request.form.get("username"):
-            return apology("must provide username", 403)
+            error = "username"
+            return render_template("login.html", error=error)
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return apology("must provide password", 403)
+            error = "password"
+            return render_template("login.html", error=error)
 
         # Query database for username
         rows = db.execute(
@@ -67,7 +73,8 @@ def login():
         if len(rows) != 1 or not check_password_hash(
             rows[0]["hash"], request.form.get("password")
         ):
-            return apology("invalid username and/or password", 403)
+            error = "invalid"
+            return render_template("login.html", error=error)
 
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
@@ -82,18 +89,35 @@ def login():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Register new user"""
+    error = "none"
+
     if request.method == "POST":
+        # Ensure email was submitted
+        if not request.form.get("email"):
+            error = "email"
+            return render_template("register.html", error=error)
+        
+        # Ensure email is correctly formatted
+        EMAIL_REGEX = re.compile(r"[^@]+@[^@]+\.[^@]+")
+        
+        if not EMAIL_REGEX.match(request.form.get("email")):
+            error = "emailincorrect"
+            return render_template("register.html", error=error)
+
         # Ensure username was submitted
         if not request.form.get("username"):
-            return apology("must provide username", 400)
+            error = "username"
+            return render_template("register.html", error=error)
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return apology("must provide password", 400)
+            error = "password"
+            return render_template("register.html", error=error)
         
         # Check if password fields match
         elif request.form.get("password") != request.form.get("confirmation"):
-            return apology("password and confirmation must be the same", 400)
+            error = "match"
+            return render_template("register.html", error=error)
 
         # Hash the password
         password = request.form.get("password")
@@ -105,8 +129,11 @@ def register():
                     "username"), phash, request.form.get(
                     "email")
             )
+            # tries are executed one by one until an exception happens
+
         except ValueError:
-            return apology("username already exists", 400)
+            error = "invalid"
+            return render_template("register.html", error=error)
         
         rows = db.execute(
             "SELECT * FROM users WHERE username = ?", request.form.get("username")
