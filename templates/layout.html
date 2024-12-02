@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html data-theme="dark" lang="en">
+<html data-theme="dark" lang="pt-BR">
     <head>
         <link rel="stylesheet" href="../static/dist/css/output.css">
         <title>LogCash: {% block title %}{% endblock %}</title>
@@ -12,7 +12,7 @@
             <!-- Logo -->
             <a class="btn btn-ghost text-lg" href="/">
                 <img alt="Logo" src="../static/svg/logo.svg" class="w-10" />
-                Finance
+                LogCash
             </a>
 
             <!-- Menu for mobile -->
@@ -39,21 +39,21 @@
                     {% if session["user_id"] %}
                     <a class="btn btn-sm btn-secondary" href="/logout">Log Out</a>
                     {% else %}
-                    <a class="btn btn-sm btn-primary" href="/register">Register</a>
+                    <a class="btn btn-sm btn-primary" href="/register">Registrar</a>
                     {% endif %}
                 </ul>
             </div>
 
             <!-- Menu for desktop -->
             <ul class="hidden menu sm:menu-horizontal gap-2">
-                <li><a>About</a></li>
-                <li><a>Pricing</a></li>
+                <li><a>Sobre nós</a></li>
+                <li><a>Valores</a></li>
                 <li><a>Blog</a></li>
-                <li><a>Contact</a></li>
+                <li><a>Contato</a></li>
                 {% if session["user_id"] %}
                 <a class="btn btn-sm btn-secondary" href="/logout">Log Out</a>
                 {% else %}
-                <a class="btn btn-sm btn-primary" href="/register">Register</a>
+                <a class="btn btn-sm btn-primary" href="/register">Registrar</a>
                 {% endif %}
             </ul>
         </nav>
