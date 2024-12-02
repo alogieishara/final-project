@@ -36,7 +36,11 @@
                     <li><a>Pricing</a></li>
                     <li><a>Blog</a></li>
                     <li><a>Contact</a></li>
+                    {% if session["user_id"] %}
+                    <a class="btn btn-sm btn-secondary" href="/logout">Log Out</a>
+                    {% else %}
                     <a class="btn btn-sm btn-primary" href="/register">Register</a>
+                    {% endif %}
                 </ul>
             </div>
 
@@ -46,7 +50,11 @@
                 <li><a>Pricing</a></li>
                 <li><a>Blog</a></li>
                 <li><a>Contact</a></li>
+                {% if session["user_id"] %}
+                <a class="btn btn-sm btn-secondary" href="/logout">Log Out</a>
+                {% else %}
                 <a class="btn btn-sm btn-primary" href="/register">Register</a>
+                {% endif %}
             </ul>
         </nav>
         

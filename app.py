@@ -5,7 +5,7 @@ from flask import Flask, flash, jsonify, redirect, render_template, request, ses
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from helpers import apology, login_required, usd
+from helpers import apology, login_required, brl
 
 # COMMANDS:
 # npx tailwindcss -i ./static/src/input.css -o ./static/dist/css/output.css --watch
@@ -16,7 +16,7 @@ from helpers import apology, login_required, usd
 app = Flask(__name__)
 
 # Custom filter
-app.jinja_env.filters["usd"] = usd
+app.jinja_env.filters["brl"] = brl
 
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_PERMANENT"] = False
@@ -144,6 +144,16 @@ def register():
     
     else:
         return render_template("register.html", error=error)
+    
+@app.route("/logout")
+def logout():
+    """Log user out"""
+
+    # Forget any user_id
+    session.clear()
+
+    # Redirect user to login form
+    return redirect("/")
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

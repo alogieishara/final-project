@@ -45,6 +45,6 @@ def login_required(f):
     return decorated_function
 
 
-def usd(value):
-    """Format value as USD."""
-    return f"${value:,.2f}"
+def brl(value):
+    """Format value as BRL."""
+    return f"R${value:,.2f}"
