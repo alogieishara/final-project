@@ -32,11 +32,12 @@
                 </button>
 
                 <ul tabindex="0" class="dropdown-content menu z-[1] bg-base-200 p-6 rounded-box shadow w-56 gap-2">
-                    <li><a>About</a></li>
-                    <li><a>Pricing</a></li>
-                    <li><a>Blog</a></li>
-                    <li><a>Contact</a></li>
+                    <li><a>Como Usar</a></li>
                     {% if session["user_id"] %}
+                    <li><a>Geral</a></li>
+                    <li><a>Pessoal</a></li>
+                    <li><a>Empresa</a></li>
+                    <div class="p-1"></div>
                     <a class="btn btn-sm btn-secondary" href="/logout">Log Out</a>
                     {% else %}
                     <a class="btn btn-sm btn-primary" href="/register">Registrar</a>
@@ -46,11 +47,11 @@
 
             <!-- Menu for desktop -->
             <ul class="hidden menu sm:menu-horizontal gap-2">
-                <li><a>Sobre nós</a></li>
-                <li><a>Valores</a></li>
-                <li><a>Blog</a></li>
-                <li><a>Contato</a></li>
+                <li><a>Como Usar</a></li>
                 {% if session["user_id"] %}
+                <li><a>Geral</a></li>
+                <li><a>Pessoal</a></li>
+                <li><a>Empresa</a></li>
                 <a class="btn btn-sm btn-secondary" href="/logout">Log Out</a>
                 {% else %}
                 <a class="btn btn-sm btn-primary" href="/register">Registrar</a>
