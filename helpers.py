@@ -21,4 +21,4 @@ def login_required(f):
 
 def brl(value):
     """Format value as BRL."""
-    return f"R${value:,.2f}"
+    return f"R${value:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
