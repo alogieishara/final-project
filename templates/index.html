@@ -5,16 +5,17 @@
 {% endblock %}
 {% block main %}
     <!-- "sm:" makes everything bigger than sm (600px) use this class -->
+
     <div class="sm:h-7"></div>
     <div class="flex justify-center items-center">
         <select class="select select-primary w-full max-w-xs overflow-y-auto" style="max-height: 200px;">
-            <option selected>December 2024</option>
+            <option selected>Dezembro 2024</option>
             <!-- generate a list of months from database and import it from app.py -->
             <!-- it is already scrollable, a bit long but it will do -->
-            <option>November 2024</option>
-            <option>October 2024</option>
-            <option>September 2024</option>
-            <option>August 2024</option>
+            <option>Novembro 2024</option>
+            <option>Outubro 2024</option>
+            <option>Setembro 2024</option>
+            <option>Agosto 2024</option>
         </select>
     </div>
     <div class="sm:p-4">
@@ -25,7 +26,6 @@
                 <div class="stat-value text-white">{{2400 | brl}}</div>
                 <div class="sm:h-4"></div>
             </div>
-
             <div class="stat w-full md:w-auto flex flex-col justify-between">
                 <div class="stat-title text-black font-bold text-lg	">Despesas Variáveis</div>
                 <div class="stat-value text-white">{{15000 | brl}}</div>

@@ -85,6 +85,13 @@ def login():
     # User reached route via GET (as by clicking a link or via redirect)
     else:
         return render_template("login.html", error=error)
+    
+@app.route("/pessoal")
+@login_required # if you go to this route not logged in, you'll be redirected to /login
+def pessoal():
+    """Gastos Pessoais"""
+    return render_template("pessoal.html")
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
