@@ -10,7 +10,7 @@ from helpers import login_required, brl
 # COMMANDS:
 # npx tailwindcss -i ./static/src/input.css -o ./static/dist/css/output.css --watch
 # python -m flask run --debug --host=0.0.0.0
-# 
+# you need to be inside the project folder to submit50
 
 # Configure application
 app = Flask(__name__)
