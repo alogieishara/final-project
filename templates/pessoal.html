@@ -20,11 +20,10 @@
     <div class="p-2"></div>
     <div class="flex gap-4">
       <select class="select select-primary w-full max-w-xs">
-        <option disabled selected>What is the best TV show?</option>
-        <option>Game of Thrones</option>
-        <option>Lost</option>
-        <option>Breaking Bad</option>
-        <option>Walking Dead</option>
+        <option disabled selected>Tipo de Despesa Fixa</option>
+        {% for cFixo in cFixo %}
+          <option value="{{ cFixo.categoria }}">{{ cFixo.categoria }}</option>
+        {% endfor %}
       </select>
       <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
     </div>
@@ -83,11 +82,10 @@
     <div class="p-2"></div>
     <div class="flex gap-4">
       <select class="select select-primary w-full max-w-xs">
-        <option disabled selected>What is the best TV show?</option>
-        <option>Game of Thrones</option>
-        <option>Lost</option>
-        <option>Breaking Bad</option>
-        <option>Walking Dead</option>
+        <option disabled selected>Tipo de Despesa Variável</option>
+        {% for cVariavel in cVariavel %}
+          <option value="{{ cVariavel.categoria }}">{{ cVariavel.categoria }}</option>
+        {% endfor %}
       </select>
       <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
     </div>

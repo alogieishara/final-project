@@ -90,7 +90,9 @@ def login():
 @login_required # if you go to this route not logged in, you'll be redirected to /login
 def pessoal():
     """Gastos Pessoais"""
-    return render_template("pessoal.html")
+    cFixo = db.execute("SELECT categoria FROM categorias WHERE escopo = 'pessoal' AND tipo = 'fixo'")
+    cVariavel = db.execute("SELECT categoria FROM categorias WHERE escopo = 'pessoal' AND tipo = 'variavel'")
+    return render_template("pessoal.html", cFixo=cFixo, cVariavel=cVariavel)
 
 
 @app.route("/register", methods=["GET", "POST"])

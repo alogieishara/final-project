@@ -2683,11 +2683,6 @@ html {
   z-index: 1;
 }
 
-.mx-40 {
-  margin-left: 10rem;
-  margin-right: 10rem;
-}
-
 .mb-0 {
   margin-bottom: 0px;
 }
@@ -2696,48 +2691,8 @@ html {
   margin-bottom: 0.25rem;
 }
 
-.mb-20 {
-  margin-bottom: 5rem;
-}
-
-.ml-40 {
-  margin-left: 10rem;
-}
-
-.mr-40 {
-  margin-right: 10rem;
-}
-
-.mt-20 {
-  margin-top: 5rem;
-}
-
 .mt-10 {
   margin-top: 2.5rem;
-}
-
-.ml-20 {
-  margin-left: 5rem;
-}
-
-.mr-20 {
-  margin-right: 5rem;
-}
-
-.ml-10 {
-  margin-left: 2.5rem;
-}
-
-.mr-10 {
-  margin-right: 2.5rem;
-}
-
-.ml-5 {
-  margin-left: 1.25rem;
-}
-
-.mr-5 {
-  margin-right: 1.25rem;
 }
 
 .block {
@@ -2812,10 +2767,6 @@ html {
   width: 100%;
 }
 
-.w-24 {
-  width: 6rem;
-}
-
 .max-w-xs {
   max-width: 20rem;
 }
@@ -2830,10 +2781,6 @@ html {
 
 .grow {
   flex-grow: 1;
-}
-
-.flex-row {
-  flex-direction: row;
 }
 
 .flex-col {
@@ -2874,14 +2821,6 @@ html {
 
 .gap-5 {
   gap: 1.25rem;
-}
-
-.gap-10 {
-  gap: 2.5rem;
-}
-
-.overflow-x-auto {
-  overflow-x: auto;
 }
 
 .overflow-y-auto {
@@ -2928,6 +2867,10 @@ html {
   padding: 0.25rem;
 }
 
+.p-2 {
+  padding: 0.5rem;
+}
+
 .p-4 {
   padding: 1rem;
 }
@@ -2942,14 +2885,6 @@ html {
 
 .p-7 {
   padding: 1.75rem;
-}
-
-.p-3 {
-  padding: 0.75rem;
-}
-
-.p-2 {
-  padding: 0.5rem;
 }
 
 .text-center {
@@ -3033,16 +2968,16 @@ html {
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
   }
 
+  .sm\:ml-10 {
+    margin-left: 2.5rem;
+  }
+
   .sm\:ml-20 {
     margin-left: 5rem;
   }
 
   .sm\:mr-10 {
     margin-right: 2.5rem;
-  }
-
-  .sm\:ml-10 {
-    margin-left: 2.5rem;
   }
 
   .sm\:mr-20 {
@@ -3069,10 +3004,6 @@ html {
     flex-direction: row;
   }
 
-  .sm\:flex-col {
-    flex-direction: column;
-  }
-
   .sm\:p-4 {
     padding: 1rem;
   }
@@ -3083,23 +3014,11 @@ html {
 }
 
 @media (min-width: 768px) {
-  .md\:m-11 {
-    margin: 2.75rem;
-  }
-
-  .md\:m-10 {
-    margin: 2.5rem;
-  }
-
   .md\:w-auto {
     width: auto;
   }
 
   .md\:flex-row {
     flex-direction: row;
-  }
-
-  .md\:p-5 {
-    padding: 1.25rem;
   }
 }
