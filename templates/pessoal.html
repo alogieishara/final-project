@@ -18,7 +18,7 @@
       <h3>Nova Despesa Fixa</h3>
     </article>
     <div class="p-2"></div>
-    <div class="flex gap-4">
+    <div class="flex gap-4 items-center">
       <select class="select select-primary w-full max-w-xs">
         <option disabled selected>Tipo de Despesa Fixa</option>
         {% for cFixo in cFixo %}
@@ -29,40 +29,32 @@
     </div>
     <div class="p-2"></div>
     <button class="btn btn-primary">Adicionar</button>
+    <div class="flex flex-col justify-center items-center gap-3 p-5" id="alertfx"></div>
     <div class="p-5"></div>
     <table class="table table-xs">
       <thead>
         <tr>
           <th></th>
-          <th>Name</th>
-          <th>Job</th>
-          <th>Company</th>
-          <th>Location</th>
-          <th>Last Login</th>
-          <th>Color</th>
+          <th>Valor</th>
+          <th>Categoria</th>
+          <th>Tempo</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <th>1</th>
-          <td>Cy Ganderton</td>
-          <td>Quality Control Specialist</td>
-          <td>Littel, Schaden and Vandervort</td>
-          <td>Canada</td>
-          <td>12/16/2020</td>
-          <td>Blue</td>
+          <td>{{ 450 | brl}}</td>
+          <td>Luz</td>
+          <td>27-12-2024</td>
         </tr>
         <!-- Add more rows here -->
       </tbody>
       <tfoot>
         <tr>
           <th></th>
-          <th>Name</th>
-          <th>Job</th>
-          <th>Company</th>
-          <th>Location</th>
-          <th>Last Login</th>
-          <th>Color</th>
+          <th>Valor</th>
+          <th>Categoria</th>
+          <th>Tempo</th>
         </tr>
       </tfoot>
     </table>
@@ -91,46 +83,73 @@
     </div>
     <div class="p-2"></div>
     <button class="btn btn-primary">Adicionar</button>
+    <div class="flex flex-col justify-center items-center gap-3 p-5" id="alertvr"></div>
     <div class="p-5"></div>
     <table class="table table-xs">
       <thead>
         <tr>
           <th></th>
-          <th>Name</th>
-          <th>Job</th>
-          <th>Company</th>
-          <th>Location</th>
-          <th>Last Login</th>
-          <th>Color</th>
+          <th>Valor</th>
+          <th>Categoria</th>
+          <th>Tempo</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <th>1</th>
-          <td>Cy Ganderton</td>
-          <td>Quality Control Specialist</td>
-          <td>Littel, Schaden and Vandervort</td>
-          <td>Canada</td>
-          <td>12/16/2020</td>
-          <td>Blue</td>
+          <td>{{ 450 | brl}}</td>
+          <td>Luz</td>
+          <td>27-12-2024</td>
         </tr>
         <!-- Add more rows here -->
       </tbody>
       <tfoot>
         <tr>
           <th></th>
-          <th>Name</th>
-          <th>Job</th>
-          <th>Company</th>
-          <th>Location</th>
-          <th>Last Login</th>
-          <th>Color</th>
+          <th>Valor</th>
+          <th>Categoria</th>
+          <th>Tempo</th>
         </tr>
       </tfoot>
     </table>
   </div>
 </div>
 <div class="p-5"></div>
+
+<script>
+    var error = {{ error | tojson }};
+    var errorMessage = '<div role="alert" class="alert alert-error w-1/2"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span>Unknown Error.</span></div>'
+
+    if (error == 'email') {
+        errorMessage =  '<div role="alert" class="alert alert-error w-1/2"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span>Email can not be empty.</span></div>'
+    }
+
+    if (error == 'emailincorrect') {
+        errorMessage =  '<div role="alert" class="alert alert-error w-1/2"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span>Email is not formatted correctly.</span></div>'
+    }
+
+    if (error == 'username') {
+        errorMessage =  '<div role="alert" class="alert alert-error w-1/2"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span>Username cannot be empty.</span></div>'
+    }
+
+    if (error == 'password') {
+        errorMessage =  '<div role="alert" class="alert alert-error w-1/2"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span>Password cannot be empty.</span></div>'
+    }
+
+    if (error == 'match') {
+        errorMessage =  '<div role="alert" class="alert alert-error w-1/2"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span>Password not matching confirmation.</span></div>'
+    }
+
+    if (error == 'invalid') {
+        errorMessage =  '<div role="alert" class="alert alert-error w-1/2"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span>Username already exists.</span></div>'
+    }
+
+    window.onload = function() {
+        if (error !== null && error !== 'none') {
+            document.getElementById('alertfx').innerHTML = errorMessage;
+        }
+    }
+</script>
 {% endblock %}
 {% block content %}
 {% endblock %}

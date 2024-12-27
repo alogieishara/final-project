@@ -86,13 +86,16 @@ def login():
     else:
         return render_template("login.html", error=error)
     
-@app.route("/pessoal")
+@app.route("/pessoal", methods=["GET", "POST"])
 @login_required # if you go to this route not logged in, you'll be redirected to /login
 def pessoal():
     """Gastos Pessoais"""
+    error = "tails"
+
     cFixo = db.execute("SELECT categoria FROM categorias WHERE escopo = 'pessoal' AND tipo = 'fixo'")
     cVariavel = db.execute("SELECT categoria FROM categorias WHERE escopo = 'pessoal' AND tipo = 'variavel'")
-    return render_template("pessoal.html", cFixo=cFixo, cVariavel=cVariavel)
+
+    return render_template("pessoal.html", cFixo=cFixo, cVariavel=cVariavel, error=error)
 
 
 @app.route("/register", methods=["GET", "POST"])
