@@ -49,9 +49,9 @@
             <ul class="hidden menu sm:menu-horizontal gap-2">
                 <li><a>Como Usar</a></li>
                 {% if session["user_id"] %}
-                <li><a href="/index">Geral</a></li>
-                <li><a href="/pessoal">Pessoal</a></li>
-                <li><a>Empresa</a></li>
+                <li><a href="/index" class="{{ 'active' if active_page == 'geral' else '' }}">Geral</a></li>
+                <li><a href="/pessoal" class="{{ 'active' if active_page == 'pessoal' else '' }}">Pessoal</a></li>
+                <li><a class="{{ 'active' if active_page == 'empresa' else '' }}">Empresa</a></li>
                 <a class="btn btn-sm btn-secondary" href="/logout">Log Out</a>
                 {% else %}
                 <a class="btn btn-sm btn-primary" href="/register">Registrar</a>
@@ -59,13 +59,30 @@
             </ul>
         </nav>
         
-        {% if get_flashed_messages() %}
-            <header>
-                <div class="alert alert-primary mb-0 text-center" role="alert">
-                    {{ get_flashed_messages() | join(" ") }}
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <div class="p-2"></div>
+                <div class="flex flex-col items-center -mb-5">
+                    {% for category, message in messages %}
+                        <div 
+                            role="alert" 
+                            class="alert w-1/2 {{ 'alert-error' if category == 'error' else 'alert-success' }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" 
+                                class="h-6 w-6 shrink-0 stroke-current" 
+                                fill="none" 
+                                viewBox="0 0 24 24">
+                                <path 
+                                    stroke-linecap="round" 
+                                    stroke-linejoin="round" 
+                                    stroke-width="2" 
+                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span>{{ message }}</span>
+                        </div>
+                    {% endfor %}
                 </div>
-            </header>
-        {% endif %}
+            {% endif %}
+        {% endwith %}
 
         <main class="grow">
             {% block main %}{% endblock %}

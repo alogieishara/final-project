@@ -26,7 +26,6 @@ Session(app)
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///logcash.db")
 
-
 @app.after_request
 def after_request(response):
     """Ensure responses aren't cached"""
@@ -41,7 +40,7 @@ def after_request(response):
 @login_required # if you go to this route not logged in, you'll be redirected to /login
 def index():
     """Homepage"""
-    return render_template("index.html")
+    return render_template("index.html", active_page="geral")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -90,12 +89,47 @@ def login():
 @login_required # if you go to this route not logged in, you'll be redirected to /login
 def pessoal():
     """Gastos Pessoais"""
-    error = "tails"
 
     cFixo = db.execute("SELECT categoria FROM categorias WHERE escopo = 'pessoal' AND tipo = 'fixo'")
     cVariavel = db.execute("SELECT categoria FROM categorias WHERE escopo = 'pessoal' AND tipo = 'variavel'")
 
-    return render_template("pessoal.html", cFixo=cFixo, cVariavel=cVariavel, error=error)
+
+    return render_template("pessoal.html", cFixo=cFixo, cVariavel=cVariavel, active_page="pessoal")
+
+
+@app.route("/dpfixa", methods=["POST"])
+@login_required
+def dpfixa():
+    if not request.form.get("selectfx"):
+        flash("Favor selecionar categoria da despesa.", "error")
+        return redirect("/pessoal")
+        
+    elif not request.form.get("inputfx"):
+        flash("Favor digitar o valor da despesa.", "error")
+        return redirect("/pessoal")
+    
+    elif not request.form.get("inputfx").isnumeric():
+        flash("Valor pode conter apenas números.", "error")
+        return redirect("/pessoal")
+
+    return redirect("/pessoal")
+
+@app.route("/dpvariavel", methods=["POST"])
+@login_required
+def dpvariavel():
+    if not request.form.get("selectvr"):
+        flash("Favor selecionar categoria da despesa.", "error")
+        return redirect("/pessoal")
+    
+    elif not request.form.get("inputvr"):
+        flash("Favor digitar o valor da despesa.", "error")
+        return redirect("/pessoal")
+    
+    elif not request.form.get("inputvr").isnumeric():
+        flash("Valor pode conter apenas números.", "error")
+        return redirect("/pessoal")
+    
+    return redirect("/pessoal")
 
 
 @app.route("/register", methods=["GET", "POST"])

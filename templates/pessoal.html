@@ -4,6 +4,8 @@
     Pessoal
 {% endblock %}
 {% block main %}
+
+
 <div class="flex sm:flex-row flex-col justify-center items-start gap-5 mt-10">
   <div class="flex-1 flex flex-col items-center sm:ml-20 sm:mr-10">
     <div class="stats shadow">
@@ -18,18 +20,21 @@
       <h3>Nova Despesa Fixa</h3>
     </article>
     <div class="p-2"></div>
-    <div class="flex gap-4 items-center">
-      <select class="select select-primary w-full max-w-xs">
-        <option disabled selected>Tipo de Despesa Fixa</option>
-        {% for cFixo in cFixo %}
-          <option value="{{ cFixo.categoria }}">{{ cFixo.categoria }}</option>
-        {% endfor %}
-      </select>
-      <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
-    </div>
-    <div class="p-2"></div>
-    <button class="btn btn-primary">Adicionar</button>
-    <div class="flex flex-col justify-center items-center gap-3 p-5" id="alertfx"></div>
+    <form action="/dpfixa" method="post">
+      <div class="flex gap-4 items-center">
+        <select class="select select-primary w-full max-w-xs" name="selectfx">
+          <option disabled selected>Tipo de Despesa Fixa</option>
+          {% for cFixo in cFixo %}
+            <option value="{{ cFixo.categoria }}">{{ cFixo.categoria }}</option>
+          {% endfor %}
+        </select>
+        <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" name="inputfx" />
+      </div>
+      <div class="p-2"></div>
+      <div class="flex justify-center">
+      <button class="btn btn-primary" type="submit" name="submitfx">Adicionar</button>
+      </div>
+    </form>
     <div class="p-5"></div>
     <table class="table table-xs">
       <thead>
@@ -72,18 +77,21 @@
       <h3>Nova Despesa Variável</h3>
     </article>
     <div class="p-2"></div>
-    <div class="flex gap-4">
-      <select class="select select-primary w-full max-w-xs">
-        <option disabled selected>Tipo de Despesa Variável</option>
-        {% for cVariavel in cVariavel %}
-          <option value="{{ cVariavel.categoria }}">{{ cVariavel.categoria }}</option>
-        {% endfor %}
-      </select>
-      <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
-    </div>
-    <div class="p-2"></div>
-    <button class="btn btn-primary">Adicionar</button>
-    <div class="flex flex-col justify-center items-center gap-3 p-5" id="alertvr"></div>
+    <form action="/dpvariavel" method="post">
+      <div class="flex gap-4 items-center">
+        <select class="select select-primary w-full max-w-xs" name="selectvr">
+          <option disabled selected>Tipo de Despesa Variável</option>
+          {% for cVariavel in cVariavel %}
+            <option value="{{ cVariavel.categoria }}">{{ cVariavel.categoria }}</option>
+          {% endfor %}
+        </select>
+        <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" name="inputvr" />
+      </div>
+      <div class="p-2"></div>
+      <div class="flex justify-center">
+      <button class="btn btn-primary" type="submit" name="submitvr">Adicionar</button>
+      </div>
+    </form>
     <div class="p-5"></div>
     <table class="table table-xs">
       <thead>
@@ -116,40 +124,6 @@
 </div>
 <div class="p-5"></div>
 
-<script>
-    var error = {{ error | tojson }};
-    var errorMessage = '<div role="alert" class="alert alert-error w-1/2"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span>Unknown Error.</span></div>'
-
-    if (error == 'email') {
-        errorMessage =  '<div role="alert" class="alert alert-error w-1/2"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span>Email can not be empty.</span></div>'
-    }
-
-    if (error == 'emailincorrect') {
-        errorMessage =  '<div role="alert" class="alert alert-error w-1/2"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span>Email is not formatted correctly.</span></div>'
-    }
-
-    if (error == 'username') {
-        errorMessage =  '<div role="alert" class="alert alert-error w-1/2"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span>Username cannot be empty.</span></div>'
-    }
-
-    if (error == 'password') {
-        errorMessage =  '<div role="alert" class="alert alert-error w-1/2"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span>Password cannot be empty.</span></div>'
-    }
-
-    if (error == 'match') {
-        errorMessage =  '<div role="alert" class="alert alert-error w-1/2"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span>Password not matching confirmation.</span></div>'
-    }
-
-    if (error == 'invalid') {
-        errorMessage =  '<div role="alert" class="alert alert-error w-1/2"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span>Username already exists.</span></div>'
-    }
-
-    window.onload = function() {
-        if (error !== null && error !== 'none') {
-            document.getElementById('alertfx').innerHTML = errorMessage;
-        }
-    }
-</script>
 {% endblock %}
 {% block content %}
 {% endblock %}
