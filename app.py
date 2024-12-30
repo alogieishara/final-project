@@ -93,20 +93,23 @@ def pessoal():
     cFixo = db.execute("SELECT categoria FROM categorias WHERE escopo = 'pessoal' AND tipo = 'fixo'")
     cVariavel = db.execute("SELECT categoria FROM categorias WHERE escopo = 'pessoal' AND tipo = 'variavel'")
 
-    despesa_fixa = db.execute("SELECT SUM(valor) AS valor FROM despesas WHERE user_id = ? AND tipo = 'pessoal' AND escopo = 'fixo' AND strftime('%Y', time) = strftime('%Y', 'now') AND strftime('%m', time) = strftime('%m', 'now')", session["user_id"])
+    despesa_fixa = db.execute("SELECT SUM(valor) AS valor FROM despesas WHERE user_id = ? AND tipo = 'fixo' AND escopo = 'pessoal' AND strftime('%Y', time) = strftime('%Y', 'now') AND strftime('%m', time) = strftime('%m', 'now')", session["user_id"])
     despesa_fixa_anterior = db.execute(
-                            "SELECT SUM(valor) AS valor FROM despesas WHERE user_id = ? AND tipo = 'pessoal' AND escopo = 'fixo' AND time BETWEEN date('now', 'start of month', '-1 month') AND date('now', 'start of month', '-1 day')", session["user_id"]
+                            "SELECT SUM(valor) AS valor FROM despesas WHERE user_id = ? AND tipo = 'fixo' AND escopo = 'pessoal' AND time BETWEEN date('now', 'start of month', '-1 month') AND date('now', 'start of month', '-1 day')", session["user_id"]
                             )
     if despesa_fixa[0]["valor"] == None:
         despesa_fixa[0]["valor"] = 0
-    despesa_variavel = db.execute("SELECT SUM(valor) AS valor FROM despesas WHERE user_id = ? AND tipo = 'pessoal' AND escopo = 'variavel' AND strftime('%Y', time) = strftime('%Y', 'now') AND strftime('%m', time) = strftime('%m', 'now')", session["user_id"])
+    despesa_variavel = db.execute("SELECT SUM(valor) AS valor FROM despesas WHERE user_id = ? AND tipo = 'variavel' AND escopo = 'pessoal' AND strftime('%Y', time) = strftime('%Y', 'now') AND strftime('%m', time) = strftime('%m', 'now')", session["user_id"])
     despesa_variavel_anterior = db.execute(
-                            "SELECT SUM(valor) AS valor FROM despesas WHERE user_id = ? AND tipo = 'pessoal' AND escopo = 'variavel' AND time BETWEEN date('now', 'start of month', '-1 month') AND date('now', 'start of month', '-1 day')", session["user_id"]
+                            "SELECT SUM(valor) AS valor FROM despesas WHERE user_id = ? AND tipo = 'variavel' AND escopo = 'pessoal' AND time BETWEEN date('now', 'start of month', '-1 month') AND date('now', 'start of month', '-1 day')", session["user_id"]
                             )
     if despesa_variavel[0]["valor"] == None:
         despesa_variavel[0]["valor"] = 0
+
+    lista_fixo = db.execute("SELECT strftime('%Y-%m-%d', time) AS formatted_date, categoria, valor, id FROM despesas WHERE user_id = ? AND escopo = 'pessoal' AND tipo = 'fixo'", session["user_id"])
+    lista_variavel = db.execute("SELECT strftime('%Y-%m-%d', time) AS formatted_date, categoria, valor, id FROM despesas WHERE user_id = ? AND escopo = 'pessoal' AND tipo = 'variavel'", session["user_id"])
     
-    return render_template("pessoal.html", cFixo=cFixo, cVariavel=cVariavel, active_page="pessoal", despesa_fixa=despesa_fixa[0]["valor"], despesa_fixa_anterior=despesa_fixa_anterior[0]["valor"], despesa_variavel=despesa_variavel[0]["valor"], despesa_variavel_anterior=despesa_variavel_anterior[0]["valor"])
+    return render_template("pessoal.html", cFixo=cFixo, cVariavel=cVariavel, active_page="pessoal", despesa_fixa=despesa_fixa[0]["valor"], despesa_fixa_anterior=despesa_fixa_anterior[0]["valor"], despesa_variavel=despesa_variavel[0]["valor"], despesa_variavel_anterior=despesa_variavel_anterior[0]["valor"], lista_fixo=lista_fixo, lista_variavel=lista_variavel)
 
 
 @app.route("/pessoal_fixa", methods=["POST"])
@@ -129,7 +132,7 @@ def pessoal_fixa():
 
     db.execute(
         "INSERT INTO despesas (user_id, escopo, tipo, categoria, valor) VALUES (?, ?, ?, ?, ?)", 
-        session["user_id"], "fixo", "pessoal", request.form.get("selectfx"), value_float
+        session["user_id"], "pessoal", "fixo", request.form.get("selectfx"), value_float
         )
 
     return redirect("/pessoal")
@@ -146,9 +149,17 @@ def pessoal_variavel():
         flash("Favor digitar o valor da despesa.", "error")
         return redirect("/pessoal")
     
-    elif not request.form.get("inputvr").isnumeric():
+    elif is_brazilian_numeric(request.form.get("inputvr")) == False:
         flash("Valor pode conter apenas números.", "error")
         return redirect("/pessoal")
+    
+    value = request.form.get("inputvr")
+    value_float = float(value.replace(',', '.'))
+
+    db.execute(
+        "INSERT INTO despesas (user_id, escopo, tipo, categoria, valor) VALUES (?, ?, ?, ?, ?)", 
+        session["user_id"], "pessoal", "variavel", request.form.get("selectvr"), value_float
+        )
     
     return redirect("/pessoal")
 
@@ -259,6 +270,16 @@ def register():
     
     else:
         return render_template("register.html", error=error)
+    
+
+@app.route("/delete", methods=["POST"])
+def delete():
+    """Deletes row from table"""
+    id = request.form.get("id")
+    if id:
+        db.execute("DELETE FROM despesas WHERE id = ?", id)
+    return redirect(request.referrer)
+
     
 @app.route("/logout")
 def logout():
