@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Pessoal
+    Empresa
 {% endblock %}
 {% block main %}
 
@@ -20,9 +20,9 @@
       <h3>Nova Despesa Fixa</h3>
     </article>
     <div class="p-2"></div>
-    <form action="/pessoal_fixa" method="post">
+    <form action="/empresa_fixa" method="post">
       <div class="flex gap-4 items-center">
-        <select class="select select-primary w-full max-w-xs" name="selectfx">
+        <select class="select select-secondary w-full max-w-xs" name="selectfx">
           <option disabled selected>Tipo de Despesa Fixa</option>
           {% for cFixo in cFixo %}
             <option value="{{ cFixo.categoria }}">{{ cFixo.categoria }}</option>
@@ -32,7 +32,7 @@
       </div>
       <div class="p-2"></div>
       <div class="flex justify-center">
-      <button class="btn btn-primary" type="submit" name="submitfx">Adicionar</button>
+      <button class="btn btn-secondary" type="submit" name="submitfx">Adicionar</button>
       </div>
     </form>
     <div class="p-5"></div>
@@ -77,9 +77,9 @@
       <h3>Nova Despesa Variável</h3>
     </article>
     <div class="p-2"></div>
-    <form action="/pessoal_variavel" method="post">
+    <form action="/empresa_variavel" method="post">
       <div class="flex gap-4 items-center">
-        <select class="select select-primary w-full max-w-xs" name="selectvr">
+        <select class="select select-secondary w-full max-w-xs" name="selectvr">
           <option disabled selected>Tipo de Despesa Variável</option>
           {% for cVariavel in cVariavel %}
             <option value="{{ cVariavel.categoria }}">{{ cVariavel.categoria }}</option>
@@ -89,7 +89,7 @@
       </div>
       <div class="p-2"></div>
       <div class="flex justify-center">
-      <button class="btn btn-primary" type="submit" name="submitvr">Adicionar</button>
+      <button class="btn btn-secondary" type="submit" name="submitvr">Adicionar</button>
       </div>
     </form>
     <div class="p-5"></div>

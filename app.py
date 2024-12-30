@@ -85,7 +85,7 @@ def login():
     else:
         return render_template("login.html", error=error)
     
-@app.route("/pessoal", methods=["GET", "POST"])
+@app.route("/pessoal")
 @login_required # if you go to this route not logged in, you'll be redirected to /login
 def pessoal():
     """Gastos Pessoais"""
@@ -97,7 +97,19 @@ def pessoal():
     return render_template("pessoal.html", cFixo=cFixo, cVariavel=cVariavel, active_page="pessoal")
 
 
-@app.route("/dpfixa", methods=["POST"])
+@app.route("/empresa")
+@login_required
+def empresa():
+    """Gastos da Empresa"""
+
+    cFixo = db.execute("SELECT categoria FROM categorias WHERE escopo = 'empresa' AND tipo = 'fixo'")
+    cVariavel = db.execute("SELECT categoria FROM categorias WHERE escopo = 'empresa' AND tipo = 'variavel'")
+
+
+    return render_template("empresa.html", cFixo=cFixo, cVariavel=cVariavel, active_page="empresa")
+
+
+@app.route("/pessoal_fixa", methods=["POST"])
 @login_required
 def dpfixa():
     if not request.form.get("selectfx"):
@@ -114,7 +126,7 @@ def dpfixa():
 
     return redirect("/pessoal")
 
-@app.route("/dpvariavel", methods=["POST"])
+@app.route("/pessoal_variavel", methods=["POST"])
 @login_required
 def dpvariavel():
     if not request.form.get("selectvr"):

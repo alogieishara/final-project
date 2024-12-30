@@ -12,11 +12,11 @@
             <!-- Logo -->
             <a class="btn btn-ghost text-2xl" href="/">
                 <img alt="Logo" src="../static/svg/logo.svg" class="w-10" />
-                LogCash
+                <span class="hidden sm:block">LogCash</span>
             </a>
 
             <!-- Menu for mobile -->
-            <div class="dropdown dropdown-end sm:hidden">
+            <!-- <div class="dropdown dropdown-end sm:hidden">
                 <button class="btn btn-square btn-ghost">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -32,26 +32,24 @@
                 </button>
 
                 <ul tabindex="0" class="dropdown-content menu z-[1] bg-base-200 p-6 rounded-box shadow w-56 gap-2">
-                    <li><a>Como Usar</a></li>
                     {% if session["user_id"] %}
-                    <li><a href="/index">Geral</a></li>
-                    <li><a>Pessoal</a></li>
-                    <li><a>Empresa</a></li>
+                    <li><a href="/index" class="{{ 'active' if active_page == 'geral' else '' }}">Geral</a></li>
+                    <li><a href="/pessoal" class="{{ 'active' if active_page == 'pessoal' else '' }}">Pessoal</a></li>
+                    <li><a class="{{ 'active' if active_page == 'empresa' else '' }}">Empresa</a></li>
                     <div class="p-1"></div>
                     <a class="btn btn-sm btn-secondary" href="/logout">Log Out</a>
                     {% else %}
                     <a class="btn btn-sm btn-primary" href="/register">Registrar</a>
                     {% endif %}
                 </ul>
-            </div>
+            </div> -->
 
             <!-- Menu for desktop -->
-            <ul class="hidden menu sm:menu-horizontal gap-2">
-                <li><a>Como Usar</a></li>
+            <ul class="menu menu-horizontal gap-2">
                 {% if session["user_id"] %}
                 <li><a href="/index" class="{{ 'active' if active_page == 'geral' else '' }}">Geral</a></li>
                 <li><a href="/pessoal" class="{{ 'active' if active_page == 'pessoal' else '' }}">Pessoal</a></li>
-                <li><a class="{{ 'active' if active_page == 'empresa' else '' }}">Empresa</a></li>
+                <li><a href="/empresa" class="{{ 'active' if active_page == 'empresa' else '' }}">Empresa</a></li>
                 <a class="btn btn-sm btn-secondary" href="/logout">Log Out</a>
                 {% else %}
                 <a class="btn btn-sm btn-primary" href="/register">Registrar</a>
