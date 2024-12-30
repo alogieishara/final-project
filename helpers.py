@@ -1,4 +1,5 @@
 import requests
+import os, re
 
 from flask import redirect, session
 from functools import wraps
@@ -22,3 +23,8 @@ def login_required(f):
 def brl(value):
     """Format value as BRL."""
     return f"R${value:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
+
+def is_brazilian_numeric(value):
+    # Regular expression to match Brazilian numeric format
+    pattern = r'^\d+(,\d{1,2})?$'
+    return bool(re.match(pattern, value))

@@ -10,11 +10,27 @@
   <div class="flex-1 flex flex-col items-center sm:ml-20 sm:mr-10">
     <div class="stats shadow">
       <div class="stat">
-        <div class="stat-title">Despesas Fixas</div>
-        <div class="stat-value">{{15000 | brl}}</div>
-        <div class="stat-desc">21% more than last month</div>
+          <div class="stat-title">Despesa Fixa</div>
+          <div class="stat-value">{{ despesa_fixa | brl }}</div>
+          <div class="stat-desc">
+              {% if despesa_fixa_anterior == None%}
+                  Sem dados para o mês anterior
+              {% elif despesa_fixa_anterior > 0%}
+                  {% set percentage_diff = ((despesa_fixa - despesa_fixa_anterior) / despesa_fixa_anterior) * 100 %}
+                  {{ percentage_diff | round(2) }}% 
+                  {% if percentage_diff > 0 %}
+                      a mais
+                  {% else %}
+                      a menos
+                  {% endif %}
+                  que o mês anterior
+              {% else %}
+                  Sem dados para o mês anterior
+              {% endif %}
+          </div>
       </div>
     </div>
+
     <div class="p-2"></div>
     <article class="prose">
       <h3>Nova Despesa Fixa</h3>
@@ -67,9 +83,24 @@
   <div class="flex-1 flex flex-col items-center sm:ml-10 sm:mr-20">
     <div class="stats shadow">
       <div class="stat">
-        <div class="stat-title">Despesas Variáveis</div>
-        <div class="stat-value">{{15000 | brl}}</div>
-        <div class="stat-desc">21% more than last month</div>
+          <div class="stat-title">Despesa Variável</div>
+          <div class="stat-value">{{ despesa_variavel | brl }}</div>
+          <div class="stat-desc">
+              {% if despesa_variavel_anterior == None%}
+                  Sem dados para o mês anterior
+              {% elif despesa_variavel_anterior > 0%}
+                  {% set percentage_diff = ((despesa_variavel - despesa_variavel_anterior) / despesa_variavel_anterior) * 100 %}
+                  {{ percentage_diff | round(2) }}% 
+                  {% if percentage_diff > 0 %}
+                      a mais
+                  {% else %}
+                      a menos
+                  {% endif %}
+                  que o mês anterior
+              {% else %}
+                  Sem dados para o mês anterior
+              {% endif %}
+          </div>
       </div>
     </div>
     <div class="p-2"></div>

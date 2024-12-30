@@ -5,7 +5,7 @@ from flask import Flask, flash, jsonify, redirect, render_template, request, ses
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from helpers import login_required, brl
+from helpers import login_required, brl, is_brazilian_numeric
 
 # COMMANDS:
 # npx tailwindcss -i ./static/src/input.css -o ./static/dist/css/output.css --watch
@@ -93,8 +93,64 @@ def pessoal():
     cFixo = db.execute("SELECT categoria FROM categorias WHERE escopo = 'pessoal' AND tipo = 'fixo'")
     cVariavel = db.execute("SELECT categoria FROM categorias WHERE escopo = 'pessoal' AND tipo = 'variavel'")
 
+    despesa_fixa = db.execute("SELECT SUM(valor) AS valor FROM despesas WHERE user_id = ? AND tipo = 'pessoal' AND escopo = 'fixo' AND strftime('%Y', time) = strftime('%Y', 'now') AND strftime('%m', time) = strftime('%m', 'now')", session["user_id"])
+    despesa_fixa_anterior = db.execute(
+                            "SELECT SUM(valor) AS valor FROM despesas WHERE user_id = ? AND tipo = 'pessoal' AND escopo = 'fixo' AND time BETWEEN date('now', 'start of month', '-1 month') AND date('now', 'start of month', '-1 day')", session["user_id"]
+                            )
+    if despesa_fixa[0]["valor"] == None:
+        despesa_fixa[0]["valor"] = 0
+    despesa_variavel = db.execute("SELECT SUM(valor) AS valor FROM despesas WHERE user_id = ? AND tipo = 'pessoal' AND escopo = 'variavel' AND strftime('%Y', time) = strftime('%Y', 'now') AND strftime('%m', time) = strftime('%m', 'now')", session["user_id"])
+    despesa_variavel_anterior = db.execute(
+                            "SELECT SUM(valor) AS valor FROM despesas WHERE user_id = ? AND tipo = 'pessoal' AND escopo = 'variavel' AND time BETWEEN date('now', 'start of month', '-1 month') AND date('now', 'start of month', '-1 day')", session["user_id"]
+                            )
+    if despesa_variavel[0]["valor"] == None:
+        despesa_variavel[0]["valor"] = 0
+    
+    return render_template("pessoal.html", cFixo=cFixo, cVariavel=cVariavel, active_page="pessoal", despesa_fixa=despesa_fixa[0]["valor"], despesa_fixa_anterior=despesa_fixa_anterior[0]["valor"], despesa_variavel=despesa_variavel[0]["valor"], despesa_variavel_anterior=despesa_variavel_anterior[0]["valor"])
 
-    return render_template("pessoal.html", cFixo=cFixo, cVariavel=cVariavel, active_page="pessoal")
+
+@app.route("/pessoal_fixa", methods=["POST"])
+@login_required
+def pessoal_fixa():
+    if not request.form.get("selectfx"):
+        flash("Favor selecionar categoria da despesa.", "error")
+        return redirect("/pessoal")
+        
+    elif not request.form.get("inputfx"):
+        flash("Favor digitar o valor da despesa.", "error")
+        return redirect("/pessoal")
+    
+    elif is_brazilian_numeric(request.form.get("inputfx")) == False:
+        flash("Valor pode conter apenas números.", "error")
+        return redirect("/pessoal")
+    
+    value = request.form.get("inputfx")
+    value_float = float(value.replace(',', '.'))
+
+    db.execute(
+        "INSERT INTO despesas (user_id, escopo, tipo, categoria, valor) VALUES (?, ?, ?, ?, ?)", 
+        session["user_id"], "fixo", "pessoal", request.form.get("selectfx"), value_float
+        )
+
+    return redirect("/pessoal")
+
+
+@app.route("/pessoal_variavel", methods=["POST"])
+@login_required
+def pessoal_variavel():
+    if not request.form.get("selectvr"):
+        flash("Favor selecionar categoria da despesa.", "error")
+        return redirect("/pessoal")
+    
+    elif not request.form.get("inputvr"):
+        flash("Favor digitar o valor da despesa.", "error")
+        return redirect("/pessoal")
+    
+    elif not request.form.get("inputvr").isnumeric():
+        flash("Valor pode conter apenas números.", "error")
+        return redirect("/pessoal")
+    
+    return redirect("/pessoal")
 
 
 @app.route("/empresa")
@@ -109,39 +165,40 @@ def empresa():
     return render_template("empresa.html", cFixo=cFixo, cVariavel=cVariavel, active_page="empresa")
 
 
-@app.route("/pessoal_fixa", methods=["POST"])
+@app.route("/empresa_fixa", methods=["POST"])
 @login_required
-def dpfixa():
+def empresa_fixa():
     if not request.form.get("selectfx"):
         flash("Favor selecionar categoria da despesa.", "error")
-        return redirect("/pessoal")
+        return redirect("/empresa")
         
     elif not request.form.get("inputfx"):
         flash("Favor digitar o valor da despesa.", "error")
-        return redirect("/pessoal")
+        return redirect("/empresa")
     
     elif not request.form.get("inputfx").isnumeric():
         flash("Valor pode conter apenas números.", "error")
-        return redirect("/pessoal")
+        return redirect("/empresa")
 
-    return redirect("/pessoal")
+    return redirect("/empresa")
 
-@app.route("/pessoal_variavel", methods=["POST"])
+
+@app.route("/empresa_variavel", methods=["POST"])
 @login_required
-def dpvariavel():
+def empresa_variavel():
     if not request.form.get("selectvr"):
         flash("Favor selecionar categoria da despesa.", "error")
-        return redirect("/pessoal")
+        return redirect("/empresa")
     
     elif not request.form.get("inputvr"):
         flash("Favor digitar o valor da despesa.", "error")
-        return redirect("/pessoal")
+        return redirect("/empresa")
     
     elif not request.form.get("inputvr").isnumeric():
         flash("Valor pode conter apenas números.", "error")
-        return redirect("/pessoal")
+        return redirect("/empresa")
     
-    return redirect("/pessoal")
+    return redirect("/empresa")
 
 
 @app.route("/register", methods=["GET", "POST"])
