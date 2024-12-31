@@ -153,7 +153,7 @@ def mensal(year_month):
 
 
     # Sort combined despesas by time (year_month)
-    despesas.sort(key=lambda x: x['year_month'], reverse=True)  # Sort by the 'year_month' field in ascending order
+    despesas.sort(key=lambda x: x['time'], reverse=True)  # Sort by the 'year_month' field in ascending order
 
      # List of month names in Portuguese
     months_pt = [
