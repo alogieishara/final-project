@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {{current_month_pt}}
+{% endblock %}
+{% block main %}
+<div class="bg-primary p-8 rounded-lg shadow-lg text-white text-center">
+    <h2 class="text-2xl sm:text-4xl font-semibold tracking-tight">
+        <span class="block">{{current_month_pt}}</span>
+    </h2>
+</div>
+
+<div class="flex justify-center items-center p-10">
+    <div class="overflow-x-auto">
+        <table class="table table-zebra"> 
+            <thead>
+                <tr>
+                    <th class="px-8">Categoria</th>
+                    <th class="px-8">Escopo</th>
+                    <th class="px-8">Tipo</th>
+                    <th class="px-8">Valor</th>
+                    <th class="px-8">Data</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in despesas %}
+                <tr>
+                    <td class="px-8">{{ row.categoria }}</td>
+                    <td class="px-8">{{ row.escopo }}</td>
+                    <td class="px-8">{{ row.tipo }}</td>
+                    <td class="px-8">{{ row.valor | brl}}</td>
+                    <td class="px-8">{{ row.time }}</td>
+                </tr>
+                {% endfor %}
+            <!-- Add more rows here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

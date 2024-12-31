@@ -99,25 +99,27 @@
         <!-- Calendar Grid Layout -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             {% for data in combined_data|reverse %}
-            <div class="card bg-white shadow-md rounded-lg p-6 w-full sm:w-80 md:w-96
-            {% if loop.index == 1 %} border-4 border-secondary {% endif %}">
-                <h3 class="text-xl font-semibold">{{ data.formatted_month }}</h3>
-                <div class="mt-4 space-y-2">
-                    <div class="flex justify-between">
-                        <span class="text-gray-500">Pessoal</span>
-                        <span class="font-bold">{{ data.despesa_pessoal | brl }}</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-500">Empresa</span>
-                        <span class="font-bold">{{ data.despesa_empresa | brl }}</span>
-                    </div>
-                    <div class="divider"></div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-500">Total</span>
-                        <span class="font-bold">{{ (data.despesa_empresa + data.despesa_pessoal) | brl }}</span>
+            <a href="{{ url_for('mensal', year_month=data.year_month) }}" class="block">
+                <div class="card bg-white shadow-md rounded-lg p-6 w-full sm:w-80 md:w-96
+                {% if loop.index == 1 %} border-4 border-secondary {% endif %}">
+                    <h3 class="text-xl font-semibold">{{ data.formatted_month }}</h3>
+                    <div class="mt-4 space-y-2">
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Pessoal</span>
+                            <span class="font-bold">{{ data.despesa_pessoal | brl }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Empresa</span>
+                            <span class="font-bold">{{ data.despesa_empresa | brl }}</span>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Total</span>
+                            <span class="font-bold">{{ (data.despesa_empresa + data.despesa_pessoal) | brl }}</span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
             {% endfor %}
         </div>
     </div>

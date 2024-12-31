@@ -126,10 +126,61 @@ def index():
         formatted_month = f"{months_pt[month_number]} {year}"
         item['formatted_month'] = formatted_month
 
+    for row in result:
+        print(dict(row))
+
     return render_template("index.html", active_page="geral", combined_data=result)
 
 
+@app.route("/mensal/<year_month>")
+def mensal(year_month):
+    year, month = year_month.split('-')
+    despesas = db.execute("""
+                          SELECT id, escopo, tipo, categoria, valor, strftime('%Y-%m', time) 
+                          AS year_month, time FROM despesas 
+                          WHERE user_id = ? AND strftime('%Y', time) = ? 
+                          AND strftime('%m', time) = ?""", session["user_id"], year, month)
+    
+    fixos = db.execute("""
+                       SELECT id, escopo, tipo, categoria, valor, strftime('%Y-%m', time) AS year_month, time 
+                       FROM despesas 
+                       WHERE user_id = ? AND tipo = 'fixo' 
+                       AND (strftime('%Y', time) < ? OR (strftime('%Y', time) = ? AND strftime('%m', time) <= ?))""", session["user_id"], year, year, month)
+    
 
+    despesas = list(despesas)  # Start with current month's expenses
+    despesas.extend(fixos)  # Add all fixed expenses
+
+
+    # Sort combined despesas by time (year_month)
+    despesas.sort(key=lambda x: x['year_month'], reverse=True)  # Sort by the 'year_month' field in ascending order
+
+     # List of month names in Portuguese
+    months_pt = [
+        "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+        "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+    ]
+
+        # Convert year_month to a more readable format (e.g., "Dezembro 2024")
+    for item in despesas:
+        month_number = int(item['year_month'][5:7]) - 1  # Get the 0-indexed month number
+        year = item['year_month'][:4]
+        formatted_month = f"{months_pt[month_number]} {year}"
+        item['formatted_month'] = formatted_month
+
+    # Remove rows with duplicate IDs
+    seen_ids = set()
+    unique_despesas = []
+    
+    for despesa in despesas:
+        if despesa['id'] not in seen_ids:
+            unique_despesas.append(despesa)  # Add unique despesa
+            seen_ids.add(despesa['id'])  # Mark this ID as seen
+    
+    current_date = datetime.now()
+    current_month_pt = f"{months_pt[current_date.month - 1]} {current_date.year}"
+
+    return render_template("mensal.html", despesas=unique_despesas, current_month_pt=current_month_pt)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -330,6 +381,8 @@ def empresa_variavel():
         )
     
     return redirect("/empresa")
+
+
 
 
 @app.route("/register", methods=["GET", "POST"])

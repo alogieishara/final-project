@@ -60,8 +60,8 @@
       <table class="table table-xs">
         <thead>
           <tr>
-            <th class="px-8">Valor</th>
             <th class="px-8">Categoria</th>
+            <th class="px-8">Valor</th>
             <th class="px-8">Data</th>
             <th class="px-8"></th>
           </tr>
@@ -69,8 +69,8 @@
         <tbody>
           {% for row in lista_fixo|reverse %}
           <tr>
-            <td class="px-8">{{ row.valor | brl}}</td>
             <td class="px-8">{{ row.categoria }}</td>
+            <td class="px-8">{{ row.valor | brl}}</td>
             <td class="px-8">{{ row.formatted_date }}</td>
             <form action="/delete" method="post">
               <input name="id" type="hidden" value="{{ row.id }}">
@@ -82,8 +82,8 @@
         </tbody>
         <tfoot>
           <tr>
-            <th class="px-8">Valor</th>
             <th class="px-8">Categoria</th>
+            <th class="px-8">Valor</th>
             <th class="px-8">Data</th>
             <th class="px-8"></th>
           </tr>
@@ -139,8 +139,8 @@
       <table class="table table-xs">
         <thead>
           <tr>
-            <th class="px-8">Valor</th>
             <th class="px-8">Categoria</th>
+            <th class="px-8">Valor</th>
             <th class="px-8">Data</th>
             <th class="px-8"></th>
           </tr>
@@ -148,8 +148,8 @@
         <tbody>
           {% for row in lista_variavel|reverse %}
           <tr>
-            <td class="px-8">{{ row.valor | brl}}</td>
             <td class="px-8">{{ row.categoria }}</td>
+            <td class="px-8">{{ row.valor | brl}}</td>
             <td class="px-8">{{ row.formatted_date }}</td>
             <td class="px-4"><button class="bg-gray-500 text-white text-sm py-1 px-3 rounded hover:bg-blue-400">Delete</button></td>
           </tr>
@@ -158,8 +158,8 @@
         </tbody>
         <tfoot>
           <tr>
-            <th class="px-8">Valor</th>
             <th class="px-8">Categoria</th>
+            <th class="px-8">Valor</th>
             <th class="px-8">Data</th>
             <th class="px-8"></th>
           </tr>
