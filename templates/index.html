@@ -6,12 +6,10 @@
 {% block main %}
     <!-- "sm:" makes everything bigger than sm (600px) use this class -->
 
-    <div class="sm:h-7"></div>
+    <!--<div class="sm:h-7"></div>
     <div class="flex justify-center items-center">
         <select class="select select-primary w-full max-w-xs overflow-y-auto" style="max-height: 200px;">
             <option selected>Dezembro 2024</option>
-            <!-- generate a list of months from database and import it from app.py -->
-            <!-- it is already scrollable, a bit long but it will do -->
             <option>Novembro 2024</option>
             <option>Outubro 2024</option>
             <option>Setembro 2024</option>
@@ -89,6 +87,39 @@
             </svg>
             <span class="text-sm">Button 6</span>
         </button>
+    </div> -->
+
+
+    <div class="bg-secondary p-8 rounded-lg shadow-lg text-white text-center mb-6">
+        <h2 class="text-2xl sm:text-4xl font-semibold tracking-tight">
+            <span class="block">Suas Despesas Mensais</span>
+        </h2>
+    </div>
+
+        <!-- Calendar Grid Layout -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {% for data in combined_data|reverse %}
+            <div class="card bg-white shadow-md rounded-lg p-6 w-full sm:w-80 md:w-96
+            {% if loop.index == 1 %} border-4 border-secondary {% endif %}">
+                <h3 class="text-xl font-semibold">{{ data.formatted_month }}</h3>
+                <div class="mt-4 space-y-2">
+                    <div class="flex justify-between">
+                        <span class="text-gray-500">Pessoal</span>
+                        <span class="font-bold">{{ data.despesa_pessoal | brl }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-500">Empresa</span>
+                        <span class="font-bold">{{ data.despesa_empresa | brl }}</span>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-500">Total</span>
+                        <span class="font-bold">{{ (data.despesa_empresa + data.despesa_pessoal) | brl }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}
 {% block content %}
