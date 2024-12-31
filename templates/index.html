@@ -91,38 +91,39 @@
 
 
     <div class="bg-secondary p-8 rounded-lg shadow-lg text-white text-center mb-6">
-        <h2 class="text-2xl sm:text-4xl font-semibold tracking-tight">
-            <span class="block">Suas Despesas Mensais</span>
-        </h2>
+    <h2 class="text-2xl sm:text-4xl font-semibold tracking-tight">
+        <span class="block">Suas Despesas Mensais</span>
+    </h2>
     </div>
 
-        <!-- Calendar Grid Layout -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {% for data in combined_data|reverse %}
-            <a href="{{ url_for('mensal', year_month=data.year_month) }}" class="block">
-                <div class="card bg-white shadow-md rounded-lg p-6 w-full sm:w-80 md:w-96
-                {% if loop.index == 1 %} border-4 border-secondary {% endif %}">
-                    <h3 class="text-xl font-semibold">{{ data.formatted_month }}</h3>
-                    <div class="mt-4 space-y-2">
-                        <div class="flex justify-between">
-                            <span class="text-gray-500">Pessoal</span>
-                            <span class="font-bold">{{ data.despesa_pessoal | brl }}</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-500">Empresa</span>
-                            <span class="font-bold">{{ data.despesa_empresa | brl }}</span>
-                        </div>
-                        <div class="divider"></div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-500">Total</span>
-                            <span class="font-bold">{{ (data.despesa_empresa + data.despesa_pessoal) | brl }}</span>
-                        </div>
+    <!-- Calendar Grid Layout -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 p-4 container mx-auto max-w-screen-xl">
+        {% for data in combined_data|reverse %}
+        <a href="{{ url_for('mensal', year_month=data.year_month) }}" class="block w-full">
+            <div class="card bg-white shadow-lg rounded-lg p-6
+                        hover:shadow-2xl transition-all duration-300
+                        {% if loop.index == 1 %} border-4 border-secondary {% endif %}">
+                <h3 class="text-xl font-semibold text-center">{{ data.formatted_month }}</h3>
+                <div class="mt-4 space-y-2">
+                    <div class="flex justify-between">
+                        <span class="text-gray-500">Pessoal</span>
+                        <span class="font-bold">{{ data.despesa_pessoal | brl }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-500">Empresa</span>
+                        <span class="font-bold">{{ data.despesa_empresa | brl }}</span>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-500">Total</span>
+                        <span class="font-bold">{{ (data.despesa_empresa + data.despesa_pessoal) | brl }}</span>
                     </div>
                 </div>
-            </a>
-            {% endfor %}
-        </div>
+            </div>
+        </a>
+        {% endfor %}
     </div>
+
 {% endblock %}
 {% block content %}
 {% endblock %}

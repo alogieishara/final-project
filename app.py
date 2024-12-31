@@ -179,10 +179,10 @@ def mensal(year_month):
             unique_despesas.append(despesa)  # Add unique despesa
             seen_ids.add(despesa['id'])  # Mark this ID as seen
     
-    current_date = datetime.now()
-    current_month_pt = f"{months_pt[current_date.month - 1]} {current_date.year}"
+    month_number = int(month) - 1
+    formatted_month = f"{months_pt[month_number]} {year}"
 
-    return render_template("mensal.html", despesas=unique_despesas, current_month_pt=current_month_pt)
+    return render_template("mensal.html", despesas=unique_despesas, current_month_pt=formatted_month)
 
 
 @app.route("/login", methods=["GET", "POST"])
