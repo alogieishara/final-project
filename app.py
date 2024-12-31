@@ -80,56 +80,58 @@ def index():
     # Gather all year_month keys
     all_months = sorted(set(item['year_month'] for item in despesas_total_fixas + despesas_total_variavel))
 
-    # Generate the full range of months
-    start_month, end_month = all_months[0], all_months[-1]
-    month_range = generate_month_range(start_month, end_month)
+    if not all_months:
+        return render_template("index.html", active_page="geral")
+        
+    else:
+        # Generate the full range of months
+        start_month, end_month = all_months[0], all_months[-1]
+        month_range = generate_month_range(start_month, end_month)
 
-    # Dictionary to store combined totals by month
-    combined_totals = defaultdict(lambda: {'despesa_pessoal': 0, 'despesa_empresa': 0})
+        # Dictionary to store combined totals by month
+        combined_totals = defaultdict(lambda: {'despesa_pessoal': 0, 'despesa_empresa': 0})
 
-    # Fill missing fixed expenses for each month
-    fixed_totals = defaultdict(lambda: {'despesa_pessoal': 0, 'despesa_empresa': 0})
-    last_fixed = None  # Keeps track of the most recent fixed expenses
+        # Fill missing fixed expenses for each month
+        fixed_totals = defaultdict(lambda: {'despesa_pessoal': 0, 'despesa_empresa': 0})
+        last_fixed = None  # Keeps track of the most recent fixed expenses
 
-    for month in month_range:
-        # Check for despesas_total_fixas data
-        fixed_item = next((item for item in despesas_total_fixas if item['year_month'] == month), None)
-        if fixed_item:
-            last_fixed = fixed_item
-        # Propagate forward only if a fixed item has been encountered
-        if last_fixed:
-            fixed_totals[month] = {'despesa_pessoal': last_fixed['despesa_pessoal'], 'despesa_empresa': last_fixed['despesa_empresa']}
+        for month in month_range:
+            # Check for despesas_total_fixas data
+            fixed_item = next((item for item in despesas_total_fixas if item['year_month'] == month), None)
+            if fixed_item:
+                last_fixed = fixed_item
+            # Propagate forward only if a fixed item has been encountered
+            if last_fixed:
+                fixed_totals[month] = {'despesa_pessoal': last_fixed['despesa_pessoal'], 'despesa_empresa': last_fixed['despesa_empresa']}
 
-    # Add variable expenses
-    for item in despesas_total_variavel:
-        combined_totals[item['year_month']]['despesa_pessoal'] += item['despesa_pessoal']
-        combined_totals[item['year_month']]['despesa_empresa'] += item['despesa_empresa']
+        # Add variable expenses
+        for item in despesas_total_variavel:
+            combined_totals[item['year_month']]['despesa_pessoal'] += item['despesa_pessoal']
+            combined_totals[item['year_month']]['despesa_empresa'] += item['despesa_empresa']
 
-    # Add fixed expenses to each month
-    for month in month_range:
-        combined_totals[month]['despesa_pessoal'] += fixed_totals[month]['despesa_pessoal']
-        combined_totals[month]['despesa_empresa'] += fixed_totals[month]['despesa_empresa']
+        # Add fixed expenses to each month
+        for month in month_range:
+            combined_totals[month]['despesa_pessoal'] += fixed_totals[month]['despesa_pessoal']
+            combined_totals[month]['despesa_empresa'] += fixed_totals[month]['despesa_empresa']
 
-    # Convert the dictionary to a sorted list of results
-    result = [
-        {'year_month': month, 
-        'despesa_pessoal': combined_totals[month]['despesa_pessoal'], 
-        'despesa_empresa': combined_totals[month]['despesa_empresa']} 
-        for month in month_range
-    ]
+        # Convert the dictionary to a sorted list of results
+        result = [
+            {'year_month': month, 
+            'despesa_pessoal': combined_totals[month]['despesa_pessoal'], 
+            'despesa_empresa': combined_totals[month]['despesa_empresa']} 
+            for month in month_range
+        ]
 
+        
+
+        for item in result:
+            month_number = int(item['year_month'][5:7]) - 1  # Get the 0-indexed month number
+            year = item['year_month'][:4]
+            formatted_month = f"{months_pt[month_number]} {year}"
+            item['formatted_month'] = formatted_month
+        
+        return render_template("index.html", active_page="geral", combined_data=result)
     
-
-    for item in result:
-        month_number = int(item['year_month'][5:7]) - 1  # Get the 0-indexed month number
-        year = item['year_month'][:4]
-        formatted_month = f"{months_pt[month_number]} {year}"
-        item['formatted_month'] = formatted_month
-
-    for row in result:
-        print(dict(row))
-
-    return render_template("index.html", active_page="geral", combined_data=result)
 
 
 @app.route("/mensal/<year_month>")
