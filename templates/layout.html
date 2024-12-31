@@ -46,6 +46,10 @@
 
             <!-- Menu for desktop -->
             <ul class="menu menu-horizontal gap-2">
+                {% if not session["user_id"] %}
+                <li><a href="/login">Login</a></li>
+                {% endif %}
+
                 {% if session["user_id"] %}
                 <li><a href="/index" class="{{ 'active' if active_page == 'geral' else '' }}">Geral</a></li>
                 <li><a href="/pessoal" class="{{ 'active' if active_page == 'pessoal' else '' }}">Pessoal</a></li>
