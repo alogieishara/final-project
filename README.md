@@ -1,4 +1,4 @@
-# LogCash - CS50 Final Project
+# LogCash - Harvard's CS50 Final Project
 #### Video Demo:  https://youtu.be/dYflH7b5DnE
 #### Description: 
 
